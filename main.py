@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 
 
@@ -30,7 +30,7 @@ async def send_iframe_html():
 
 @app.post('/install_update')
 async def send_install_updates():
-    os.system("bash create_sendesk_webhook.sh")
+    os.system("bash ./create_zendesk_webhook.sh")
     return """
         <!DOCTYPE html>
         <html lang="en">
@@ -45,5 +45,7 @@ async def send_install_updates():
     """
 
 @app.post('/webhook')
-async def webhook():
-    print("Hey there message received")
+async def webhook(
+    request: Request
+):
+    print("Hey there message received", request)

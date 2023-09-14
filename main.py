@@ -1,5 +1,7 @@
+import os
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+
 
 app = FastAPI()
 
@@ -10,13 +12,38 @@ async def root():
 @app.get('/sidebar', response_class=HTMLResponse)
 async def send_iframe_html():
     return """
-    <html>
+        <!DOCTYPE html>
+        <html lang="en">
         <head>
-            <title>Some HTML in here</title>
+            <meta charset="UTF-8">
+            <title>Sample Form</title>
         </head>
         <body>
-            <h1>Look ma! HTML!</h1>
-            <p>App content from the server</p>
+        <form method="post" action="/install_update">
+            <a>Install new updates</a>
+            <input value="install" type="submit">
+        </form>
+        <p>Result: </p>
         </body>
-    </html>
+        </html>
     """
+
+@app.post('/install_update')
+async def send_install_updates():
+    os.system("bash create_sendesk_webhook.sh")
+    return """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Sample Form</title>
+        </head>
+        <body>
+            <p>updates installed</p>
+        </body>
+        </html>
+    """
+
+@app.post('/webhook')
+async def webhook():
+    print("Hey there message received")

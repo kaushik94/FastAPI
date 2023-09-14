@@ -1,4 +1,4 @@
-curl -X POST https://moneysavehelp.zendesk.com/api/v2/webhooks \
+$response = curl -X POST https://moneysavehelp.zendesk.com/api/v2/webhooks \
   -u kaushik@moneysave.io:zendesk \
   -H "Content-Type:application/json" \
   -d '{
@@ -13,3 +13,5 @@ curl -X POST https://moneysavehelp.zendesk.com/api/v2/webhooks \
       ]
     }
   }'
+
+echo $response.webhook.id
